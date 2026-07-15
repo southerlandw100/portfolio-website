@@ -15,7 +15,7 @@
   <div>
     <p>Even though I have no information listed on this website yet, please contact me using this form here if this is
       sufficient evidence that I'd be a valuable asset to your Software Engineering team!</p>
-    <form action="https://formsubmit.co/southerlandw100@gmail.com" method="POST">
+    <form id="contact-form">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" placeholder="Your Name" required>
 
@@ -30,6 +30,35 @@
 
       <button type="submit">Send Message</button>
     </form>
+    <p id="form-status"></p>
+
+    <script>
+      const form = document.getElementById('contact-form');
+      const status = document.getElementById('form-status');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        fetch('https://formsubmit.co/ajax/southerlandw100@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: form.name.value,
+            email: form.email.value,
+            message: form.message.value,
+            _subject: 'New message from portfolio site!'
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            status.textContent = "Thanks! Your message has been sent.";
+            form.reset();
+          })
+          .catch(error => {
+            status.textContent = "Something went wrong. Please try again.";
+          });
+      });
+    </script>
   </div>
 </body>
 
